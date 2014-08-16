@@ -12,7 +12,7 @@ end
 
 stage_two do
   unless prefer :locale, 'none'
-    gsub_file 'config/application.rb', /# config.i18n.default_locale.*$/, "config.i18n.default_locale = :#{prefs[:locale]}"
+    gsub_file 'config/application.rb', /# config.i18n.default_locale.*$/, "config.i18n.default_locale = :'#{prefs[:locale]}'"
     locale_filename = "config/locales/#{prefs[:locale]}.yml"
     create_file locale_filename
     append_to_file locale_filename, "#{prefs[:locale]}:"
