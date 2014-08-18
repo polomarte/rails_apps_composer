@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rake", '~> 10.1'
   s.add_development_dependency "rspec", '~> 2.14'
   s.add_development_dependency "mg", '~> 0.0', '>= 0.0.8'
+  s.add_development_dependency "pry"
 
   s.files         = Dir["lib/**/*.rb", "recipes/*.rb", "README.textile", "version.rb", "templates/*"]
   s.test_files    = Dir["spec/**/*"]
