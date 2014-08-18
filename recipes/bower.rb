@@ -1,8 +1,6 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/polomarte/rails_apps_composer/blob/master/recipes/bower.rb
 
-require 'pry'
-
 stage_three do
   say_wizard "recipe installing Bower"
 
@@ -21,7 +19,7 @@ stage_three do
     "//= require_tree ../bower\n"
   end
 
-  insert_into_file 'app/assets/stylesheets/application.css', before: '*= require_tree .' do
+  insert_into_file 'app/assets/stylesheets/application.css.scss', before: '*= require_tree .' do
     "*= require_tree ../bower\n "
   end
 
