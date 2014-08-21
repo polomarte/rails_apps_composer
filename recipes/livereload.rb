@@ -10,9 +10,7 @@ stage_three do
   # Add rack-livereload configuration.
   insert_into_file 'config/environments/development.rb', after: 'Rails.application.configure do' do
   "\n
-  MyApp::Application.configure do
-    config.middleware.use Rack::LiveReload
-  end\n"
+  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)\n"
   end
 
   say_wizard 'recipe init Guard-Livereload'
