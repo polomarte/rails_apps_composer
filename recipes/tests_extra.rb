@@ -4,12 +4,17 @@
 say_wizard "recipe adding extra test gems"
 
 add_gem 'spring-commands-rspec', group: :development
+add_gem 'capybara-email', group: :test
 add_gem 'timecop', group: :test
 add_gem 'simplecov', group: :test, require: false
 
 stage_two do
   say_wizard "recipe installing spring-commands-rspec"
   run 'bundle exec spring binstub rspec'
+
+  say_wizard 'Coping spec helper'
+  repo = 'https://raw.github.com/polomarte/polomarte_composer/master'
+  copy_from "#{repo}/tests/spec_helper.rb", 'spec/spec_helper.rb'
 
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: extra testing framework"' if prefer :git, true

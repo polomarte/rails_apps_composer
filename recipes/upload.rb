@@ -1,5 +1,6 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/polomarte/rails_apps_composer/blob/master/recipes/upload.rb
+require 'aws-sdk'
 
 add_gem 'fog'
 add_gem 'carrierwave'
@@ -14,12 +15,9 @@ stage_three do
   copy_from "#{repo}/carrierwave/settings.rb", 'config/initializers/carrierwave.rb'
 
   # Copy default Carrierwave uploader
-  repo = 'https://raw.github.com/polomarte/polomarte_composer/master'
   copy_from "#{repo}/carrierwave/uploader.rb", 'app/uploaders/image_uploader.rb'
 
   # Amazon Web Services Configuration
-  require 'aws-sdk'
-
   AWS.config(
     access_key_id: ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
     secret_access_key: ENV['POLOMARTE_COMPOSER_AWS_SECRET_ACCESS_KEY_ID']
