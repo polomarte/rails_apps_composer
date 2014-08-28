@@ -25,6 +25,9 @@ stage_three do
 
   # Copy default production settings
   copy_from "#{repo}/environment/production.rb", 'config/environments/production.rb'
+
+  gsub_file 'config/initializers/devise.rb', "Rails.application.secrets.domain_name", "ENV['DOMAIN_NAME']"
+  remove_file 'app/services/create_admin_service.rb'
 end
 
 __END__
