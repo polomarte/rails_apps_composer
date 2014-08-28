@@ -6,6 +6,7 @@ say_wizard "recipe adding extra test gems"
 add_gem 'spring-commands-rspec', group: :development
 add_gem 'capybara-email', group: :test
 add_gem 'timecop', group: :test
+add_gem 'poltergeist', group: :test
 add_gem 'simplecov', group: :test, require: false
 
 stage_two do
