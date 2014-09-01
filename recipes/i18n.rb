@@ -34,8 +34,6 @@ stage_three do
   remove_file 'config/locales/pt-BR.yml'
   remove_file 'config/locales/en.yml'
 
-
-
   git add: '-A' if prefer :git, true
   git commit: '-qm "Add i18n settings"' if prefer :git, true
 end
