@@ -31,8 +31,8 @@ else
 end
 
 ## Database Adapter
-unless prefer :database, 'default'
-  gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
+unless prefer :database, 'sqlite'
+  gsub_file 'Gemfile', /gem 'sqlite3'\n/, ''
 end
 gsub_file 'Gemfile', /gem 'pg'.*/, ''
 add_gem 'pg' if prefer :database, 'postgresql'
@@ -57,8 +57,9 @@ end
 if prefer :tests, 'rspec'
   add_gem 'rails_apps_testing', :group => :development
   add_gem 'rspec-rails', :group => [:development, :test]
+  add_gem 'spring-commands-rspec', :group => :development
   add_gem 'factory_girl_rails', :group => [:development, :test]
-  add_gem 'faker', :group => :test
+  add_gem 'faker', :group => [:development, :test]
   add_gem 'capybara', :group => :test
   add_gem 'database_cleaner', :group => :test
   add_gem 'launchy', :group => :test
@@ -99,8 +100,13 @@ end
 add_gem 'sendgrid' if prefer :email, 'sendgrid'
 
 ## Authentication (Devise)
-add_gem 'devise' if prefer :authentication, 'devise'
-add_gem 'devise_invitable' if prefer :devise_modules, 'invitable'
+if prefer :authentication, 'devise'
+    add_gem 'devise'
+    add_gem 'devise_invitable' if prefer :devise_modules, 'invitable'
+end
+
+## Administratative Interface (Upmin)
+add_gem 'upmin-admin' if prefer :dashboard, 'upmin'
 
 ## Authentication (OmniAuth)
 add_gem 'omniauth' if prefer :authentication, 'omniauth'
@@ -130,7 +136,7 @@ git :commit => '-qm "rails_apps_composer: Gemfile"' if prefer :git, true
 stage_two do
   say_wizard "recipe stage two"
   say_wizard "configuring database"
-  unless prefer :database, 'default'
+  unless prefer :database, 'sqlite'
     copy_from_repo 'config/database-postgresql.yml', :prefs => 'postgresql'
     copy_from_repo 'config/database-mysql.yml', :prefs => 'mysql'
     if prefer :database, 'postgresql'
@@ -148,8 +154,7 @@ stage_two do
           say_wizard "set config/database.yml for username/password #{pg_username}/#{pg_password}"
         end
         if pg_host.present?
-          gsub_file "config/database.yml", /#host: localhost/, "host: #{pg_host}"
-          gsub_file "config/database.yml", /test:/, "test:\n  host: #{pg_host}"
+          gsub_file "config/database.yml", /  host:     localhost/, "  host:     #{pg_host}"
         end
       rescue StandardError => e
         raise "unable to create a user for PostgreSQL, reason: #{e}"
@@ -213,7 +218,7 @@ stage_two do
   end
   ## Figaro Gem
   if prefer :local_env_file, 'figaro'
-    `figaro:install`
+    run 'figaro install'
     gsub_file 'config/application.yml', /# PUSHER_.*\n/, ''
     gsub_file 'config/application.yml', /# STRIPE_.*\n/, ''
     prepend_to_file 'config/application.yml' do <<-FILE
@@ -240,15 +245,15 @@ FILE
 
 FILE
     end
-    create_file 'Procfile', 'web: bundle exec rails server -p $PORT' if prefer :prod_webserver, 'thin'
-    create_file 'Procfile', 'web: bundle exec unicorn -p $PORT' if prefer :prod_webserver, 'unicorn'
-    create_file 'Procfile', 'web: bundle exec puma -p $PORT' if prefer :prod_webserver, 'puma'
-    create_file 'Procfile', 'web: bundle exec passenger start -p $PORT' if prefer :prod_webserver, 'passenger_standalone'
+    create_file 'Procfile', "web: bundle exec rails server -p $PORT\n" if prefer :prod_webserver, 'thin'
+    create_file 'Procfile', "web: bundle exec unicorn -p $PORT\n" if prefer :prod_webserver, 'unicorn'
+    create_file 'Procfile', "web: bundle exec puma -p $PORT\n" if prefer :prod_webserver, 'puma'
+    create_file 'Procfile', "web: bundle exec passenger start -p $PORT\n" if prefer :prod_webserver, 'passenger_standalone'
     if (prefs[:dev_webserver] != prefs[:prod_webserver])
-      create_file 'Procfile.dev', 'web: bundle exec rails server -p $PORT' if prefer :dev_webserver, 'thin'
-      create_file 'Procfile.dev', 'web: bundle exec unicorn -p $PORT' if prefer :dev_webserver, 'unicorn'
-      create_file 'Procfile.dev', 'web: bundle exec puma -p $PORT' if prefer :dev_webserver, 'puma'
-      create_file 'Procfile.dev', 'web: bundle exec passenger start -p $PORT' if prefer :dev_webserver, 'passenger_standalone'
+      create_file 'Procfile.dev', "web: bundle exec rails server -p $PORT\n" if prefer :dev_webserver, 'thin'
+      create_file 'Procfile.dev', "web: bundle exec unicorn -p $PORT\n" if prefer :dev_webserver, 'unicorn'
+      create_file 'Procfile.dev', "web: bundle exec puma -p $PORT\n" if prefer :dev_webserver, 'puma'
+      create_file 'Procfile.dev', "web: bundle exec passenger start -p $PORT\n" if prefer :dev_webserver, 'passenger_standalone'
     end
   end
   ## Git

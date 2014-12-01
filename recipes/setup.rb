@@ -34,6 +34,7 @@ if prefs[:prod_webserver] == 'same'
 end
 
 ## Database Adapter
+prefs[:database] = "sqlite" if prefer :database, 'default'
 prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"],
   ["MySQL", "mysql"]] unless prefs.has_key? :database
 
@@ -54,8 +55,8 @@ end
 ## Front-end Framework
 if recipes.include? 'frontend'
   prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"],
-    ["Bootstrap 3.0", "bootstrap3"], ["Bootstrap 2.3", "bootstrap2"],
-    ["Zurb Foundation 5.0", "foundation5"], ["Zurb Foundation 4.0", "foundation4"],
+    ["Bootstrap 3.2", "bootstrap3"], ["Bootstrap 2.3", "bootstrap2"],
+    ["Zurb Foundation 5.4", "foundation5"], ["Zurb Foundation 4.0", "foundation4"],
     ["Simple CSS", "simple"]] unless prefs.has_key? :frontend
 end
 
@@ -82,7 +83,12 @@ if (recipes.include? 'devise') || (recipes.include? 'omniauth')
       prefs[:omniauth_provider] = multiple_choice "OmniAuth provider?", [["Facebook", "facebook"], ["Twitter", "twitter"], ["GitHub", "github"],
         ["LinkedIn", "linkedin"], ["Google-Oauth-2", "google_oauth2"], ["Tumblr", "tumblr"]] unless prefs.has_key? :omniauth_provider
   end
-  prefs[:authorization] = multiple_choice "Authorization?", [["None", "none"], ["Pundit", "pundit"]] unless prefs.has_key? :authorization
+  prefs[:authorization] = multiple_choice "Authorization?", [["None", "none"], ["Simple role-based", "roles"], ["Pundit", "pundit"]] unless prefs.has_key? :authorization
+  if prefer :authentication, 'devise'
+    if (prefer :authorization, 'roles') || (prefer :authorization, 'pundit')
+      prefs[:dashboard] = multiple_choice "Admin interface for database?", [["None", "none"], ["Upmin", "upmin"]] unless prefs.has_key? :dashboard
+    end
+  end
 end
 
 ## Form Builder

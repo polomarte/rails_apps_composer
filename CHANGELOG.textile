@@ -1,5 +1,87 @@
 h1. CHANGELOG
 
+h3. 3.0.29 unreleased
+
+* substitute backtick for a single quote in 'readme' recipe (contributed by DamirSvrtan)
+
+h3. 3.0.28 November 19, 2014
+
+* add 'spring-commands-rspec' gem for testing (contributed by Carlos Eduardo Rodrigues Diógenes)
+* fix for 'locale' recipe (contributed by Carlos Eduardo Rodrigues Diógenes)
+* add 'rails-stripe-checkout' example application
+
+h3. 3.0.27 November 9, 2014
+
+* add mailing list to rails-signup-download example application
+
+h3. 3.0.26 October 27, 2014
+
+* rename 'rails_mailinglist_signup' to ''rails_mailinglist_activejob'
+
+h3. 3.0.25 October 18, 2014
+
+* add options to 'rails_bootstrap' and 'rails_foundation' recipes to allow choice of database and SimpleForm
+
+h3. 3.0.24 October 17, 2014
+
+* restore 'rails_mailinglist_signup' example app for Rails 4.2
+* no need to specify GitHub source for Devise gem for Rails 4.2
+
+h3. 3.0.23 October 1, 2014
+
+* fix handling of optional hostname for PostgreSQL (closes #314)
+* fix 'deployment' recipe to accommodate Heroku and PostgreSQL
+
+h3. 3.0.22 September 28, 2014
+
+* issue resolved, no need to specify 'foundation-rails' gem version
+
+h3. 3.0.21 September 25, 2014
+
+* no need to change the 'config/database.yml' file for Heroku
+
+h3. 3.0.20 September 24, 2014
+
+* specify 'foundation-rails' gem version for https://github.com/zurb/foundation/issues/5811
+
+h3. 3.0.19 September 24, 2014
+
+* accommodate new version of Figaro gem (closes #319)
+* improve generation of 'app.json' file for Heroku Button deployment
+
+h3. 3.0.18 September 22, 2014
+
+* add Heroku option to 'deployment' recipe
+* removed 'default' database preference and replaced with 'sqlite'
+* remove 'Gemfile.lock' and run 'bundle install' in final stage
+
+h3. 3.0.17 September 16, 2014
+
+* fix for Procfile create or update (contributed by Dima Lunich)
+
+h3. 3.0.16 September 14, 2014
+
+* add Upmin option for an admin interface
+
+h3. 3.0.15 September 8, 2014
+
+* accommodate Devise for Rails 4.2.0.beta1
+
+h3. 3.0.14 August 31, 2014
+
+* use role-based authorization for 'rails-signup-download' app
+
+h3. 3.0.13 August 27, 2014
+
+* add 'rails-devise-roles' example application
+* add 'Simple role-based' authorization option
+
+h3. 3.0.12 August 26, 2014
+
+* add 'faker' gem to development environment when RSpec is selected (contributed by ailnlv)
+* remove 'rails_mailinglist_signup' example app from menu pending release of Rails 4.2
+* specify no analytics for 'learn-rails' example app
+
 h3. 3.0.11 August 3, 2014
 
 * fix tests when Devise is selected without user pages (contributed by mengqing)
@@ -102,7 +184,7 @@ h3. 2.6.7 May 26, 2014
 
 * for Devise, set 'config.mailer_sender' in 'config/initializers/devise.rb' file
 * for Devise, add 'password_confirmation' to 'config/initializers/filter_parameter_logging.rb' file
-* add tests for 'rails_signup_download' app
+* add tests for 'rails-signup-download' app
 
 h3. 2.6.6 May 11, 2014
 

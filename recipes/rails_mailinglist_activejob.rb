@@ -1,24 +1,23 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/rails_mailinglist_signup.rb
+# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/rails_mailinglist_activejob.rb
 
-if prefer :apps4, 'rails-mailinglist-signup'
+if prefer :apps4, 'rails-mailinglist-activejob'
   prefs[:authentication] = false
   prefs[:authorization] = false
+  prefs[:dashboard] = 'none'
   prefs[:better_errors] = true
-  prefs[:deployment] = 'none'
-  prefs[:devise_modules] = false
   prefs[:form_builder] = 'simple_form'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
   prefs[:quiet_assets] = true
   prefs[:secrets] = ['mailchimp_list_id', 'mailchimp_api_key']
-  prefs[:pages] = 'none'
+  prefs[:pages] = 'about'
   prefs[:locale] = 'none'
 
   # gems
-  add_gem 'activejob', github: 'rails/activejob'
   add_gem 'gibbon'
+  add_gem 'high_voltage'
   add_gem 'sucker_punch'
 
   stage_two do
@@ -28,7 +27,7 @@ if prefer :apps4, 'rails-mailinglist-signup'
 
   stage_three do
     say_wizard "recipe stage three"
-    repo = 'https://raw.github.com/RailsApps/rails-mailinglist-signup/master/'
+    repo = 'https://raw.github.com/RailsApps/rails-mailinglist-activejob/master/'
 
     # >-------------------------------[ Config ]---------------------------------<
 
@@ -48,10 +47,12 @@ if prefer :apps4, 'rails-mailinglist-signup'
 
     # >-------------------------------[ Views ]--------------------------------<
 
+    remove_file 'app/views/visitors/index.html.erb'
     copy_from_repo 'app/views/visitors/new.html.erb', :repo => repo
 
     # >-------------------------------[ Routes ]-------------------------------<
 
+    gsub_file 'config/routes.rb', /  root to: 'visitors#index'\n/, ''
     inject_into_file 'config/routes.rb', "  root to: 'visitors#new'\n", :after => "routes.draw do\n"
     route = '  resources :visitors, only: [:new, :create]'
     inject_into_file 'config/routes.rb', route + "\n", :after => "routes.draw do\n"
@@ -65,8 +66,8 @@ end
 
 __END__
 
-name: rails_mailinglist_signup
-description: "rails_mailinglist_signup starter application"
+name: rails_mailinglist_activejob
+description: "rails_mailinglist_activejob starter application"
 author: RailsApps
 
 requires: [core]

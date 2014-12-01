@@ -4,12 +4,10 @@
 if prefer :apps4, 'rails-foundation'
   prefs[:authentication] = false
   prefs[:authorization] = false
+  prefs[:dashboard] = 'none'
   prefs[:better_errors] = true
-  prefs[:database] = 'default'
-  prefs[:deployment] = 'none'
   prefs[:devise_modules] = false
   prefs[:email] = 'none'
-  prefs[:form_builder] = false
   prefs[:frontend] = 'foundation5'
   prefs[:git] = true
   prefs[:local_env_file] = false

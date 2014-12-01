@@ -10,12 +10,15 @@ stage_two do
       generate 'pages:about -f'
     when 'users'
       generate 'pages:users -f'
+      generate 'pages:roles -f' if prefer :authorization, 'roles'
       generate 'pages:authorized -f' if prefer :authorization, 'pundit'
     when 'about+users'
       generate 'pages:about -f'
       generate 'pages:users -f'
+      generate 'pages:roles -f' if prefer :authorization, 'roles'
       generate 'pages:authorized -f' if prefer :authorization, 'pundit'
   end
+  generate 'pages:upmin -f' if prefer :dashboard, 'upmin'
   generate 'layout:navigation -f'
   ### GIT ###
   git :add => '-A' if prefer :git, true

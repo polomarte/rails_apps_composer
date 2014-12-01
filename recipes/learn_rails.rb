@@ -6,10 +6,11 @@ if prefer :apps4, 'learn-rails'
   # preferences
   prefs[:authentication] = false
   prefs[:authorization] = false
+  prefs[:dashboard] = 'none'
   prefs[:ban_spiders] = false
   prefs[:better_errors] = true
-  prefs[:database] = 'default'
-  prefs[:deployment] = 'none'
+  prefs[:database] = 'sqlite'
+  prefs[:deployment] = 'heroku'
   prefs[:devise_modules] = false
   prefs[:dev_webserver] = 'webrick'
   prefs[:email] = 'gmail'
@@ -26,6 +27,7 @@ if prefer :apps4, 'learn-rails'
   prefs[:tests] = false
   prefs[:pages] = 'none'
   prefs[:locale] = 'none'
+  prefs[:analytics] = 'none'
 
   # gems
   add_gem 'activerecord-tableless'

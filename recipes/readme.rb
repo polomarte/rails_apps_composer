@@ -104,6 +104,15 @@ TEXT
   end
 
   create_file 'README.md', "#{app_name.humanize.titleize}\n================\n\n"
+
+  if prefer :deployment, 'heroku'
+    append_to_file 'README.md' do <<-TEXT
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+TEXT
+    end
+  end
+
   append_to_file 'README.md' do <<-TEXT
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
@@ -117,7 +126,7 @@ Need help? Ask on Stack Overflow with the tag 'railsapps.'
 
 Your application contains diagnostics in the README file. Please provide a copy of the README file when reporting any issues.
 
-If the application doesn’t work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
+If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
 and include the diagnostics.
 
 Ruby on Rails

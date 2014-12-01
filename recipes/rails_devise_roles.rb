@@ -1,10 +1,9 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/rails_devise.rb
+# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/rails_devise_roles.rb
 
-if prefer :apps4, 'rails-devise'
+if prefer :apps4, 'rails-devise-roles'
   prefs[:authentication] = 'devise'
-  prefs[:authorization] = false
-  prefs[:dashboard] = 'none'
+  prefs[:authorization] = 'roles'
   prefs[:better_errors] = true
   prefs[:git] = true
   prefs[:local_env_file] = false
@@ -16,8 +15,8 @@ end
 
 __END__
 
-name: rails_devise
-description: "rails-devise starter application"
+name: rails_devise_roles
+description: "rails-devise-roles starter application"
 author: RailsApps
 
 requires: [core]
