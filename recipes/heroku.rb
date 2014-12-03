@@ -39,6 +39,10 @@ stage_three do
   prefs[:rollbar_token_client] = "GO TO THE ROLLBAR DASHBOARD AND GET ONE"
   prefs[:mandrill_username]    = vars['MANDRILL_USERNAME']
   prefs[:mandrill_apikey]      = vars['MANDRILL_APIKEY']
+
+  # Allow domains
+  heroku_api.post_domain(prefs[:heroku_app_name], prefs[:host_domain])
+  heroku_api.post_domain(prefs[:heroku_app_name_staging], "stating.#{prefs[:host_domain]}")
 end
 
 __END__
