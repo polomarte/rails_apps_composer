@@ -9,14 +9,12 @@ stage_three do
   if prefer :templates, 'slim'
     # Add gon to app.
     insert_into_file 'app/views/layouts/application.html.slim', after: 'csrf_meta_tags' do
-    "\n
-    == include_gon\n"
+      "\n    == include_gon"
     end
   else
     # Add gon to app.
     insert_into_file 'app/views/layouts/application.html.erb', after: '</title>' do
-    "\n
-    <%= include_gon %>\n"
+      "\n     <%= include_gon %>"
     end
   end
 
@@ -32,5 +30,5 @@ description: "Add Gon gem"
 author: polomarte
 
 requires: []
-run_after: []
+run_after: [frontend]
 category: other
