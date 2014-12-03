@@ -13,14 +13,9 @@ stage_three do
   config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)\n"
   end
 
-  say_wizard 'recipe init Guard-Livereload'
-
-  run 'guard init livereload'
-
   # Commit initial Livereload's settings
   git add: '-A' if prefer :git, true
   git commit: '-qm "Add Livereload settings"' if prefer :git, true
-
 end
 
 __END__
