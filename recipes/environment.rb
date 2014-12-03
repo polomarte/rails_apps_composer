@@ -62,6 +62,7 @@ def setup_application_yml
 
   if recipe? 'heroku'
     gsub_file 'config/application.yml', "{{new_relic_key}}",        prefs[:new_relic_key]
+    gsub_file 'config/application.yml', "{{new_relic_app_name}}",   @app_name
     gsub_file 'config/application.yml', "{{rollbar_token}}",        prefs[:rollbar_token]
     gsub_file 'config/application.yml', "{{rollbar_token_client}}", prefs[:rollbar_token_client]
     gsub_file 'config/application.yml', "{{mandrill_username}}",    prefs[:mandrill_username]
