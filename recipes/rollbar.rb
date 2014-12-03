@@ -24,7 +24,7 @@ end
 
 __END__
 
-name: environment
+name: rollbar
 description: "Change Environment files"
 author: polomarte
 
