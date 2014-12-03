@@ -1,3 +1,4 @@
+add_gem 'draper', '~> 1.3'
 add_gem 'jazz_hands', :group => [:development, :test]
 add_gem 'pry-rescue', :group => [:development, :test]
 add_gem 'rails_12factor', group: [:production, :staging]
