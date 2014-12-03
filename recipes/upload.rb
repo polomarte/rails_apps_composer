@@ -7,7 +7,16 @@ add_gem 'carrierwave'
 add_gem 'mini_magick'
 add_gem 'aws-sdk'
 
-stage_three do
+stage_two do
+  # We have tried to put this into a "before_config" but this callback didn't work.
+  say_wizard "recipe checking AWS credentials"
+
+  aws_access_info = [
+    ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
+    ENV['POLOMARTE_COMPOSER_AWS_SECRET_ACCESS_KEY_ID']]
+
+  raise 'AWS access variables are not defined' if aws_access_info.any?(&:nil?)
+
   say_wizard "recipe installing Carrierwave"
 
   # Copy default Carrierwave settings
@@ -20,8 +29,7 @@ stage_three do
   # Amazon Web Services Configuration
   AWS.config(
     access_key_id: ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
-    secret_access_key: ENV['POLOMARTE_COMPOSER_AWS_SECRET_ACCESS_KEY_ID']
-  )
+    secret_access_key: ENV['POLOMARTE_COMPOSER_AWS_SECRET_ACCESS_KEY_ID'])
 
   # Create buckets
   s3 = AWS::S3.new
@@ -31,23 +39,40 @@ stage_three do
   s3.buckets.create production_bucket_name
   s3.buckets.create staging_bucket_name
 
+  # Add CORS rules
+  s3.buckets[production_bucket_name].cors.add({
+      allowed_methods: %w(GET),
+      allowed_origins: %w(*),
+      allowed_headers: %w(Authorization),
+      max_age_seconds: 3600
+    }, {
+      allowed_methods: %w(GET POST PUT),
+      allowed_origins: ["http://#{prefs[:host_domain]}"],
+      allowed_headers: %w(*),
+      max_age_seconds: 3600})
+
+  s3.buckets[staging_bucket_name].cors.add({
+      allowed_methods: %w(GET),
+      allowed_origins: %w(*),
+      allowed_headers: %w(Authorization),
+      max_age_seconds: 3600
+    }, {
+      allowed_methods: %w(GET POST PUT),
+      allowed_origins: ["http://staging.#{prefs[:host_domain]}"],
+      allowed_headers: %w(*),
+      max_age_seconds: 3600})
+
   # Create AWS user for the project
   iam = AWS::IAM.new
-  user = iam.users.create(prefs[:host_domain])
+  user = iam.users.create(@app_name)
 
   # Append access keys to application.yml
   keys = user.access_keys.create
-  prepend_to_file 'config/application.yml' do <<-FILE
-AWS_ACCESS_KEY_ID: #{keys.id}
-AWS_SECRET_ACCESS_KEY: #{keys.secret}
 
-production:
-  FOG_DIRECTORY: #{production_bucket_name}
-
-staging:
-  FOG_DIRECTORY: #{staging_bucket_name}
-FILE
-  end
+  prefs[:aws_key_id]      = keys.id
+  prefs[:aws_secret_key]  = keys.secret
+  prefs[:staging_fog_dir] = staging_bucket_name
+  prefs[:prod_fog_dir]    = production_bucket_name
 
   # Generate policy
   policy = AWS::IAM::Policy.new
@@ -77,7 +102,7 @@ FILE
       's3:RestoreObject'])
 
   # Add policy to user
-  user.policies["#{prefs[:host_domain]}_s3_access"] = policy
+  user.policies["#{@app_name}_s3_access"] = policy
 
   git add: '-A' if prefer :git, true
   git commit: '-qm "Add Upload settings"' if prefer :git, true
