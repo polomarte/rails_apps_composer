@@ -42,7 +42,7 @@ stage_three do
 
   # Allow domains
   heroku_api.post_domain(prefs[:heroku_app_name], prefs[:host_domain])
-  heroku_api.post_domain(prefs[:heroku_app_name_staging], "stating.#{prefs[:host_domain]}")
+  heroku_api.post_domain(prefs[:heroku_app_name_staging], "staging.#{prefs[:host_domain]}")
 end
 
 __END__
