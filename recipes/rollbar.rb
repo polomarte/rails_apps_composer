@@ -9,7 +9,7 @@ stage_three do
   run "rails generate rollbar #{prefs[:rollbar_token]}"
 
   if prefer :templates, 'slim'
-    copy_from "#{repo}/views/application/_rollbar.slim", 'app/views/application/_rollbar.slim'
+    copy_from "#{repo}/views/_rollbar.slim", 'app/views/layouts/_rollbar.slim'
 
     insert_into_file 'app/views/layouts/application.html.slim', before: "== javascript_include_tag 'application'" do
       "== render 'layouts/rollbar'\n    "
