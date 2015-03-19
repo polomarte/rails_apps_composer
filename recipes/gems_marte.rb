@@ -7,7 +7,6 @@ add_gem'pry-byebug'
 add_gem 'pry-rescue', group: [:development, :test]
 add_gem 'rails_12factor', group: [:production, :staging]
 add_gem 'heroku-deflater', group: [:production, :staging]
-add_gem 'heroku', group: :development
 
 __END__
 
