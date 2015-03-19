@@ -8,10 +8,6 @@ stage_three do
 
   prefs[:heroku_app_name_staging] = "#{prefs[:heroku_app_name]}-staging"
 
-  say_wizard 'recipe adding pgbackups on production and staging'
-  run "heroku addons:add pgbackups:auto-month -a #{prefs[:heroku_app_name]}"
-  run "heroku addons:add pgbackups:auto-month -a #{prefs[:heroku_app_name_staging]}"
-
   say_wizard 'recipe adding newrelic'
   run "heroku addons:add newrelic:stark -a #{prefs[:heroku_app_name]}"
 
