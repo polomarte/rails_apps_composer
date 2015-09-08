@@ -4,4 +4,8 @@ $:.push File.dirname(__FILE__) + '/../lib'
 require 'rubygems'
 require 'rails_wizard/command'
 
-RailsWizard::Command.start
+begin
+  RailsWizard::Command.start
+rescue Exception => e
+  puts e.backtrace
+end
