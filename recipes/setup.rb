@@ -18,20 +18,7 @@ prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBric
 prefs[:prod_webserver] = multiple_choice "Web server for production?", [["Same as development", "same"],
   ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"], ["Phusion Passenger (Apache/Nginx)", "passenger"],
   ["Phusion Passenger (Standalone)", "passenger_standalone"]] unless prefs.has_key? :prod_webserver
-if prefs[:prod_webserver] == 'same'
-  case prefs[:dev_webserver]
-    when 'thin'
-      prefs[:prod_webserver] = 'thin'
-    when 'unicorn'
-      prefs[:prod_webserver] = 'unicorn'
-    when 'puma'
-      prefs[:prod_webserver] = 'puma'
-    when 'passenger'
-      prefs[:prod_webserver] = 'passenger'
-    when 'passenger_standalone'
-      prefs[:prod_webserver] = 'passenger_standalone'
-  end
-end
+prefs[:prod_webserver] = prefs[:dev_webserver] if prefs[:prod_webserver] == 'same'
 
 ## Database Adapter
 prefs[:database] = "sqlite" if prefer :database, 'default'
@@ -55,8 +42,8 @@ end
 ## Front-end Framework
 if recipes.include? 'frontend'
   prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"],
-    ["Bootstrap 3.2", "bootstrap3"], ["Bootstrap 2.3", "bootstrap2"],
-    ["Zurb Foundation 5.4", "foundation5"], ["Zurb Foundation 4.0", "foundation4"],
+    ["Bootstrap 3.3", "bootstrap3"], ["Bootstrap 2.3", "bootstrap2"],
+    ["Zurb Foundation 5.5", "foundation5"], ["Zurb Foundation 4.0", "foundation4"],
     ["Simple CSS", "simple"]] unless prefs.has_key? :frontend
 end
 
@@ -102,9 +89,37 @@ if recipes.include? 'pages'
     ["Home, About, and Users", "about+users"]] unless prefs.has_key? :pages
 end
 
-# save diagnostics before anything can fail
-create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
-append_file "README", "PREFERENCES\n#{prefs.inspect}"
+# save configuration before anything can fail
+create_file 'config/railscomposer.yml', "# This application was generated with Rails Composer\n\n"
+append_to_file 'config/railscomposer.yml' do <<-TEXT
+apps4: [#{prefs[:apps4]}]
+announcements: [#{prefs[:announcements]}]
+dev_webserver: [#{prefs[:dev_webserver]}]
+prod_webserver: [#{prefs[:prod_webserver]}]
+database: [#{prefs[:database]}]
+templates: [#{prefs[:templates]}]
+tests: [#{prefs[:tests]}]
+continuous_testing: [#{prefs[:continuous_testing]}]
+frontend: [#{prefs[:frontend]}]
+email: [#{prefs[:email]}]
+authentication: [#{prefs[:authentication]}]
+devise_modules: [#{prefs[:devise_modules]}]
+omniauth_provider: [#{prefs[:omniauth_provider]}]
+authorization: [#{prefs[:authorization]}]
+form_builder: [#{prefs[:form_builder]}]
+pages: [#{prefs[:pages]}]
+locale: [#{prefs[:locale]}]
+analytics: [#{prefs[:analytics]}]
+deployment: [#{prefs[:deployment]}]
+ban_spiders: [#{prefs[:ban_spiders]}]
+github: [#{prefs[:github]}]
+local_env_file: [#{prefs[:local_env_file]}]
+quiet_assets: [#{prefs[:quiet_assets]}]
+better_errors: [#{prefs[:better_errors]}]
+pry: [#{prefs[:pry]}]
+rvmrc: [#{prefs[:rvmrc]}]
+TEXT
+end
 
 __END__
 

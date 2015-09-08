@@ -120,6 +120,37 @@ if prefs[:pry]
   add_gem 'pry-rescue', :group => [:development, :test]
 end
 
+## Rubocop
+if config['rubocop']
+  prefs[:rubocop] = true
+end
+if prefs[:rubocop]
+  say_wizard "recipe adding rubocop gem and basic .rubocop.yml"
+  add_gem 'rubocop', :group => [:development, :test]
+  copy_from_repo '.rubocop.yml'
+end
+
+## Disable Turbolinks
+if config['disable_turbolinks']
+  prefs[:disable_turbolinks] = true
+end
+if prefs[:disable_turbolinks]
+  say_wizard "recipe removing support for Rails Turbolinks"
+  stage_two do
+    say_wizard "recipe stage two"
+    gsub_file 'Gemfile', /gem 'turbolinks'\n/, ''
+    gsub_file 'app/assets/javascripts/application.js', "//= require turbolinks\n", ''
+    case prefs[:templates]
+      when 'erb'
+        gsub_file 'app/views/layouts/application.html.erb', /, 'data-turbolinks-track' => true/, ''
+      when 'haml'
+        gsub_file 'app/views/layouts/application.html.haml', /, 'data-turbolinks-track' => true/, ''
+      when 'slim'
+        gsub_file 'app/views/layouts/application.html.slim', /, 'data-turbolinks-track' => true/, ''
+    end
+  end
+end
+
 ## BAN SPIDERS
 if config['ban_spiders']
   prefs[:ban_spiders] = true
@@ -155,9 +186,10 @@ stage_three do
     gsub_file 'Gemfile', /.*gem 'haml2slim'\n/, "\n"
     gsub_file 'Gemfile', /.*gem 'html2haml'\n/, "\n"
   end
-  # remove gems used to assist rails_apps_composer
+  # remove gems and files used to assist rails_apps_composer
   gsub_file 'Gemfile', /.*gem 'rails_apps_pages'\n/, ''
   gsub_file 'Gemfile', /.*gem 'rails_apps_testing'\n/, ''
+  remove_file 'config/railscomposer.yml'
   # remove commented lines and multiple blank lines from Gemfile
   # thanks to https://github.com/perfectline/template-bucket/blob/master/cleanup.rb
   gsub_file 'Gemfile', /#.*\n/, "\n"
@@ -203,6 +235,9 @@ run_after: [gems, init]
 category: other
 
 config:
+  - disable_turbolinks:
+      type: boolean
+      prompt: Disable Rails Turbolinks?
   - ban_spiders:
       type: boolean
       prompt: Set a robots.txt file to ban spiders?
@@ -222,3 +257,6 @@ config:
   - pry:
       type: boolean
       prompt: Use 'pry' as console replacement during development and test?
+  - rubocop:
+      type: boolean
+      prompt: Use 'rubocop' to ensure that your code conforms to the Ruby style guide?

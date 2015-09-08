@@ -1,7 +1,66 @@
 h1. CHANGELOG
 
-h3. 3.0.29 unreleased
+h3. 3.0.42 June 7, 2015
 
+* update 'learn-rails' recipe for application version 2.2.0
+* correct Foreman .env OmniAuth configuration in 'init' recipe (closes #335)
+
+h3. 3.0.41 May 31, 2015
+
+* remove 'ENV.fetch' and restore 'ENV' to avoid errors during 'rake db:migrate'
+
+h3. 3.0.40 May 10, 2015
+
+* add a temporary file 'config/railscomposer.yml' with configuration settings
+
+h3. 3.0.39 April 28, 2015
+
+* use 'ENV.fetch' instead of 'ENV' to reveal configuration issues
+* fix a documentation URL
+* fix missing backslashes in a regex expression
+
+h3. 3.0.38 April 27, 2015
+
+* accommodate Haml and Slim when disabling Turbolinks
+
+h3. 3.0.37 April 24, 2015
+
+* option to remove Rails Turbolinks
+* disable Turbolinks for 'rails-stripe-membership-saas' example application
+
+h3. 3.0.36 April 23, 2015
+
+* install bundler gem (because it is no longer automatically installed by RVM)
+
+h3. 3.0.35 April 16, 2015
+
+* fix error with Haml::HTML (contributed by Matthew Orahood)
+
+h3. 3.0.34 April 15, 2015
+
+* add 'rails-stripe-membership-saas' example application
+
+h3. 3.0.33 February 4, 2015
+
+* add 'rails-stripe-coupons' example application
+
+h3. 3.0.32 December 29, 2014
+
+* 'learn-rails' recipe no longer needs gems 'activerecord-tableless' or 'thin'
+
+h3. 3.0.31 December 29, 2014
+
+* set 'rubocop' option to false for RailsApps example apps
+
+h3. 3.0.30 December 29, 2014
+
+* suggest upgrade to Rails 4.2 for Rails 4.1 users
+
+h3. 3.0.29 December 9, 2014
+
+* improve 'extras' recipe to add 'rubocop' option (contributed by Jason Yeo)
+* remove sdoc for Rails 4.2 (contributed by Jason Yeo)
+* improved assignment of prefs[:prod_webserver] (contributed by Jose Ney Guerrero)
 * substitute backtick for a single quote in 'readme' recipe (contributed by DamirSvrtan)
 
 h3. 3.0.28 November 19, 2014
