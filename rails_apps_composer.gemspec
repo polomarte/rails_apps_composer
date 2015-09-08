@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "aws-sdk-v1"
   s.add_development_dependency "rspec", '~> 2.14'
   s.add_development_dependency "mg", '~> 0.0', '>= 0.0.8'
-  s.add_development_dependency "pry"
+  s.add_development_dependency "pry-byebug", '~>1.3.2'
 
   s.files         = Dir["lib/**/*.rb", "recipes/*.rb", "README.textile", "version.rb", "templates/*"]
   s.test_files    = Dir["spec/**/*"]
