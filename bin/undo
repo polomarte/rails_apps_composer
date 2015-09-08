@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'aws-sdk'
+require 'pry'
+
+# app_name                = 'brandmotion'
+# host_domain             = 'brandmotion.binder.com.br'
+# heroku_app_name         = 'brandmotion'
+# heroku_app_name_staging = 'brandmotion-staging'
+
+`heroku addons:remove newrelic -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:remove rollbar -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:remove logentries -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:remove memcachier -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:remove mandrill -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:remove mailtrap -a #{heroku_app_name_staging} --confirm #{heroku_app_name_staging}`
+
+`heroku domains:clear -a #{heroku_app_name}`
+`heroku domains:clear -a #{heroku_app_name_staging}`
+
+Aws.config[:credentials] = Aws::Credentials.new(
+  ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
+  ENV['POLOMARTE_COMPOSER_AWS_SECRET_ACCESS_KEY_ID'])
+
+Aws.config[:region] = 'us-east-1'
+
+s3 = Aws::S3::Resource.new
+
+puts 'Deleting buckets'
+s3.bucket("assets.production.#{host_domain}").delete rescue puts('Production bucket already deleted')
+s3.bucket("assets.staging.#{host_domain}").delete rescue puts('Staging bucket already deleted')
+
+puts 'Deleting project user'
+iam = Aws::IAM::Resource.new
+user = iam.user app_name
+user.policy("#{app_name}_s3_access").delete rescue puts('Policy already deleted')
+user.access_keys.first.delete rescue puts('Access keys already deleted')
+user.delete rescue puts('User already deleted')
