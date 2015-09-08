@@ -1,6 +1,6 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/polomarte/rails_apps_composer/blob/master/recipes/upload.rb
-require 'aws-sdk'
+require 'aws-sdk-v1'
 
 add_gem 'fog'
 add_gem 'carrierwave'
