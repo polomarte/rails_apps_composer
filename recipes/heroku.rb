@@ -1,7 +1,7 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/polomarte/rails_apps_composer/blob/master/recipes/heroku.rb
 
-require 'heroku-api'
+require 'platform-api'
 
 stage_three do
   say_wizard 'recipe config Heroku'
@@ -9,26 +9,27 @@ stage_three do
   prefs[:heroku_app_name_staging] = "#{prefs[:heroku_app_name]}-staging"
 
   say_wizard 'recipe adding newrelic'
-  run "heroku addons:add newrelic:stark -a #{prefs[:heroku_app_name]}"
+  run "heroku addons:create newrelic:wayne -a #{prefs[:heroku_app_name]}"
 
   say_wizard 'recipe adding rollbar'
-  run "heroku addons:add rollbar -a #{prefs[:heroku_app_name]}"
+  run "heroku addons:create rollbar:free -a #{prefs[:heroku_app_name]}"
 
   say_wizard 'recipe adding logentries'
-  run "heroku addons:add logentries:tryit -a #{prefs[:heroku_app_name]}"
+  run "heroku addons:create logentries:le_tryit -a #{prefs[:heroku_app_name]}"
 
   say_wizard 'recipe adding memcachier'
-  run "heroku addons:add memcachier:dev -a #{prefs[:heroku_app_name]}"
+  run "heroku addons:create memcachier:dev -a #{prefs[:heroku_app_name]}"
 
   say_wizard 'recipe adding mandrill'
-  run "heroku addons:add mandrill:starter -a #{prefs[:heroku_app_name]}"
+  run "heroku addons:create mandrill:basic -a #{prefs[:heroku_app_name]}"
 
   say_wizard 'recipe adding mailtrap'
-  run "heroku addons:add mailtrap -a #{prefs[:heroku_app_name_staging]}"
+  run "heroku addons:create mailtrap:free -a #{prefs[:heroku_app_name_staging]}"
 
-  heroku_api   = Heroku::API.new
-  vars         = heroku_api.get_config_vars(prefs[:heroku_app_name]).body
-  vars_staging = heroku_api.get_config_vars(prefs[:heroku_app_name_staging]).body
+  heroku_api = PlatformAPI.connect_oauth(ENV['OUTRACOISA_HEROKU_API_KEY'])
+
+  vars         = heroku_api.config_var.info(prefs[:heroku_app_name])
+  vars_staging = heroku_api.config_var.info(prefs[:heroku_app_name_staging])
 
   prefs[:new_relic_key]        = vars['NEW_RELIC_LICENSE_KEY']
   prefs[:rollbar_token]        = vars['ROLLBAR_ACCESS_TOKEN']
@@ -37,8 +38,8 @@ stage_three do
   prefs[:mandrill_apikey]      = vars['MANDRILL_APIKEY']
 
   # Allow domains
-  heroku_api.post_domain(prefs[:heroku_app_name], prefs[:host_domain])
-  heroku_api.post_domain(prefs[:heroku_app_name_staging], "staging.#{prefs[:host_domain]}")
+  heroku_api.domain.create(prefs[:heroku_app_name], {hostname: prefs[:host_domain]})
+  heroku_api.domain.create(prefs[:heroku_app_name_staging], {hostname: "staging.#{prefs[:host_domain]}"})
 end
 
 __END__
