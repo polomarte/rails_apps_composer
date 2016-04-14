@@ -23,9 +23,6 @@ stage_two do
   repo = 'https://raw.github.com/polomarte/polomarte_composer/master'
   copy_from "#{repo}/carrierwave/settings.rb", 'config/initializers/carrierwave.rb'
 
-  # Copy default Carrierwave uploader
-  copy_from "#{repo}/carrierwave/uploader.rb", 'app/uploaders/image_uploader.rb'
-
   # Amazon Web Services Configuration
   AWS.config(
     access_key_id: ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
