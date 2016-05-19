@@ -73,7 +73,8 @@ if (recipes.include? 'devise') || (recipes.include? 'omniauth')
   prefs[:authorization] = multiple_choice "Authorization?", [["None", "none"], ["Simple role-based", "roles"], ["Pundit", "pundit"]] unless prefs.has_key? :authorization
   if prefer :authentication, 'devise'
     if (prefer :authorization, 'roles') || (prefer :authorization, 'pundit')
-      prefs[:dashboard] = multiple_choice "Admin interface for database?", [["None", "none"], ["Upmin", "upmin"]] unless prefs.has_key? :dashboard
+      prefs[:dashboard] = multiple_choice "Admin interface for database?", [["None", "none"],
+        ["Thoughtbot Administrate", "administrate"], ["Upmin", "upmin"]] unless prefs.has_key? :dashboard
     end
   end
 end
@@ -89,35 +90,69 @@ if recipes.include? 'pages'
     ["Home, About, and Users", "about+users"]] unless prefs.has_key? :pages
 end
 
+## Bootstrap Page Templates
+if recipes.include? 'pages'
+  if prefs[:frontend] == 'bootstrap3'
+    say_wizard "Which Bootstrap page template? Visit startbootstrap.com."
+    prefs[:layouts] = multiple_choice "Add Bootstrap page templates?", [["None", "none"],
+    ["1 Col Portfolio", "one_col_portfolio"],
+    ["2 Col Portfolio", "two_col_portfolio"],
+    ["3 Col Portfolio", "three_col_portfolio"],
+    ["4 Col Portfolio", "four_col_portfolio"],
+    ["Bare", "bare"],
+    ["Blog Home", "blog_home"],
+    ["Business Casual", "business_casual"],
+    ["Business Frontpage", "business_frontpage"],
+    ["Clean Blog", "clean_blog"],
+    ["Full Width Pics", "full_width_pics"],
+    ["Heroic Features", "heroic_features"],
+    ["Landing Page", "landing_page"],
+    ["Modern Business", "modern_business"],
+    ["One Page Wonder", "one_page_wonder"],
+    ["Portfolio Item", "portfolio_item"],
+    ["Round About", "round_about"],
+    ["Shop Homepage", "shop_homepage"],
+    ["Shop Item", "shop_item"],
+    ["Simple Sidebar", "simple_sidebar"],
+    ["Small Business", "small_business"],
+    ["Stylish Portfolio", "stylish_portfolio"],
+    ["The Big Picture", "the_big_picture"],
+    ["Thumbnail Gallery", "thumbnail_gallery"]] unless prefs.has_key? :layouts
+  end
+end
+
 # save configuration before anything can fail
 create_file 'config/railscomposer.yml', "# This application was generated with Rails Composer\n\n"
 append_to_file 'config/railscomposer.yml' do <<-TEXT
-apps4: [#{prefs[:apps4]}]
-announcements: [#{prefs[:announcements]}]
-dev_webserver: [#{prefs[:dev_webserver]}]
-prod_webserver: [#{prefs[:prod_webserver]}]
-database: [#{prefs[:database]}]
-templates: [#{prefs[:templates]}]
-tests: [#{prefs[:tests]}]
-continuous_testing: [#{prefs[:continuous_testing]}]
-frontend: [#{prefs[:frontend]}]
-email: [#{prefs[:email]}]
-authentication: [#{prefs[:authentication]}]
-devise_modules: [#{prefs[:devise_modules]}]
-omniauth_provider: [#{prefs[:omniauth_provider]}]
-authorization: [#{prefs[:authorization]}]
-form_builder: [#{prefs[:form_builder]}]
-pages: [#{prefs[:pages]}]
-locale: [#{prefs[:locale]}]
-analytics: [#{prefs[:analytics]}]
-deployment: [#{prefs[:deployment]}]
-ban_spiders: [#{prefs[:ban_spiders]}]
-github: [#{prefs[:github]}]
-local_env_file: [#{prefs[:local_env_file]}]
-quiet_assets: [#{prefs[:quiet_assets]}]
-better_errors: [#{prefs[:better_errors]}]
-pry: [#{prefs[:pry]}]
-rvmrc: [#{prefs[:rvmrc]}]
+development:
+  apps4: #{prefs[:apps4]}
+  announcements: #{prefs[:announcements]}
+  dev_webserver: #{prefs[:dev_webserver]}
+  prod_webserver: #{prefs[:prod_webserver]}
+  database: #{prefs[:database]}
+  templates: #{prefs[:templates]}
+  tests: #{prefs[:tests]}
+  continuous_testing: #{prefs[:continuous_testing]}
+  frontend: #{prefs[:frontend]}
+  email: #{prefs[:email]}
+  authentication: #{prefs[:authentication]}
+  devise_modules: #{prefs[:devise_modules]}
+  omniauth_provider: #{prefs[:omniauth_provider]}
+  authorization: #{prefs[:authorization]}
+  form_builder: #{prefs[:form_builder]}
+  pages: #{prefs[:pages]}
+  layouts: #{prefs[:layouts]}
+  locale: #{prefs[:locale]}
+  analytics: #{prefs[:analytics]}
+  deployment: #{prefs[:deployment]}
+  ban_spiders: #{prefs[:ban_spiders]}
+  github: #{prefs[:github]}
+  local_env_file: #{prefs[:local_env_file]}
+  quiet_assets: #{prefs[:quiet_assets]}
+  better_errors: #{prefs[:better_errors]}
+  pry: #{prefs[:pry]}
+  rvmrc: #{prefs[:rvmrc]}
+  dashboard: #{prefs[:dashboard]}
 TEXT
 end
 

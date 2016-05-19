@@ -14,8 +14,7 @@ stage_three do
   # add diagnostics to README
   create_file 'README', "#{app_name.humanize.titleize}\n================\n\n"
   append_to_file 'README' do <<-TEXT
-Rails Composer, open source, supported by subscribers.
-Please join RailsApps to support development of Rails Composer.
+Rails Composer is supported by developers who purchase our RailsApps tutorials.
 Need help? Ask on Stack Overflow with the tag 'railsapps.'
 Problems? Submit an issue: https://github.com/RailsApps/rails_apps_composer/issues
 Your application contains diagnostics in this README file.
@@ -103,6 +102,7 @@ Rails Composer: http://railscomposer.com/
 TEXT
   end
 
+  remove_file 'README.md'
   create_file 'README.md', "#{app_name.humanize.titleize}\n================\n\n"
 
   if prefer :deployment, 'heroku'
@@ -117,7 +117,7 @@ TEXT
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
-Rails Composer is open source and supported by subscribers. Please join RailsApps to support development of Rails Composer.
+Rails Composer is supported by developers who purchase our RailsApps tutorials.
 
 Problems? Issues?
 -----------

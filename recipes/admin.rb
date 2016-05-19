@@ -1,15 +1,10 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/admin.rb
 
-case config['admin']
-  when 'activeadmin'
-    prefs[:admin] = 'activeadmin'
-  when 'rails_admin'
-    prefs[:admin] = 'rails_admin'
-end
+prefs[:admin] = config['admin'] unless (config['admin'] == 'none')
 
 if prefer :admin, 'activeadmin'
-  add_gem 'activeadmin', github: 'gregbell/active_admin'
+  add_gem 'activeadmin', '~> 1.0.0.pre2'
 elsif prefer :admin, 'rails_admin'
   add_gem 'rails_admin'
 end

@@ -1,5 +1,53 @@
 h1. CHANGELOG
 
+h3. 3.1.7 February 29, 2016
+
+* 'learn-rails' application now uses SendGrid not Mandrill
+
+h3. 3.1.6 February 7, 2016
+
+* use 'high_voltage' gem from GitHub master with Rails 5.0
+* handle existing README.md file in Rails 5.0
+
+h3. 3.1.5 January 30, 2016
+
+* don't use 'foundation-rails' gem version 6 for Foundation 5
+* 'learn-rails' application now uses Mandrill not Gmail
+
+h3. 3.1.4 December 19, 2015
+
+* preliminary support for Rails 5.0.0.beta1
+
+h3. 3.1.3 November 23, 2015
+
+* improve format of file 'config/railscomposer.yml' containing configuration settings
+
+h3. 3.1.2 November 23, 2015
+
+* include gem 'administrate' from the good folks at thoughtbot
+
+h3. 3.1.1 November 6, 2015
+
+* include gem 'high_voltage' so Bootstrap templates will work with all example apps
+* move auth links to a new partial to accommodate Bootstrap templates
+* update pitch for support
+
+h3. 3.1.0 October 31, 2015
+
+* added a 'stage four' sequence to accommodate Bootstrap page layouts
+* added Bootstrap page layouts using the rails_apps_pages gem
+* removed a redundant 'bundle install' step
+* fix issue #349 typo in conditional
+* version number not needed for Figaro gem
+
+h3. 3.0.44 October 26, 2015
+
+* merged pull requests from jsyeo, neydroid, mli, vfonic
+
+h3. 3.0.43 October 19, 2015
+
+* downgrade mysql2 gem due to Rails issue https://github.com/rails/rails/issues/21544
+
 h3. 3.0.42 June 7, 2015
 
 * update 'learn-rails' recipe for application version 2.2.0

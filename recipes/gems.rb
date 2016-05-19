@@ -35,13 +35,11 @@ else
 end
 
 ## Database Adapter
-unless prefer :database, 'sqlite'
-  gsub_file 'Gemfile', /gem 'sqlite3'\n/, ''
-end
+gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
 gsub_file 'Gemfile', /gem 'pg'.*/, ''
 add_gem 'pg' if prefer :database, 'postgresql'
 gsub_file 'Gemfile', /gem 'mysql2'.*/, ''
-add_gem 'mysql2' if prefer :database, 'mysql'
+add_gem 'mysql2', '~> 0.3.18' if prefer :database, 'mysql'
 
 ## Gem to set up controllers, views, and routing in the 'apps4' recipe
 add_gem 'rails_apps_pages', :group => :development if prefs[:apps4]
@@ -89,15 +87,23 @@ case prefs[:frontend]
     add_gem 'zurb-foundation', '~> 4.3.2'
     add_gem 'compass-rails', '~> 1.1.2'
   when 'foundation5'
-    add_gem 'foundation-rails'
+    add_gem 'foundation-rails', '~> 5.5'
 end
 
 ## Pages
 case prefs[:pages]
   when 'about'
-    add_gem 'high_voltage'
+    if Rails::VERSION::MAJOR == 5
+      add_gem 'high_voltage', github: 'thoughtbot/high_voltage'
+    else
+      add_gem 'high_voltage'
+    end
   when 'about+users'
-    add_gem 'high_voltage'
+    if Rails::VERSION::MAJOR == 5
+      add_gem 'high_voltage', github: 'thoughtbot/high_voltage'
+    else
+      add_gem 'high_voltage'
+    end
 end
 
 ## Email
@@ -109,8 +115,9 @@ if prefer :authentication, 'devise'
     add_gem 'devise_invitable' if prefer :devise_modules, 'invitable'
 end
 
-## Administratative Interface (Upmin)
+## Administratative Interface
 add_gem 'upmin-admin' if prefer :dashboard, 'upmin'
+add_gem 'administrate' if prefer :dashboard, 'administrate'
 
 ## Authentication (OmniAuth)
 add_gem 'omniauth' if prefer :authentication, 'omniauth'
@@ -129,7 +136,7 @@ add_gem 'simple_form' if prefer :form_builder, 'simple_form'
 
 ## Gems from a defaults file or added interactively
 gems.each do |g|
-  gem(*g)
+  add_gem(*g)
 end
 
 ## Git
