@@ -1,22 +1,27 @@
 #!/usr/bin/env ruby
 
 require 'aws-sdk'
-require 'pry'
 
-# app_name                = 'amanco'
-# host_domain             = 'amanco.com.br'
-# heroku_app_name         = 'amanco'
-# heroku_app_name_staging = 'amanco-staging'
+app_name                = ENV['APP_NAME']
+host_domain             = ENV['DOMAIN']
+heroku_app_name         = ENV['HEROKU_APP']
+heroku_app_name_staging = "#{heroku_app_name}-staging"
 
-`heroku addons:remove newrelic -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku addons:remove rollbar -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku addons:remove logentries -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku addons:remove memcachier -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku addons:remove mandrill -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku addons:remove mailtrap -a #{heroku_app_name_staging} --confirm #{heroku_app_name_staging}`
+unless ENV['APP_NAME'] && ENV['DOMAIN'] && ENV['HEROKU_APP']
+  puts 'The variables below must be present:'
+  puts 'APP_NAME, HEROKU_APP, DOMAIN'
 
-`heroku domains:clear -a #{heroku_app_name} --confirm #{heroku_app_name}`
-`heroku domains:clear -a #{heroku_app_name_staging} --confirm #{heroku_app_name_staging}`
+  return
+end
+
+`heroku addons:destroy newrelic -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:destroy rollbar -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:destroy logentries -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:destroy memcachier -a #{heroku_app_name} --confirm #{heroku_app_name}`
+`heroku addons:destroy sendgrid -a #{heroku_app_name} --confirm #{heroku_app_name}`
+
+`heroku domains:clear -a #{heroku_app_name}`
+`heroku domains:clear -a #{heroku_app_name_staging}`
 
 Aws.config[:credentials] = Aws::Credentials.new(
   ENV['POLOMARTE_COMPOSER_AWS_ACCESS_KEY_ID'],
