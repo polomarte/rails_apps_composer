@@ -8,11 +8,15 @@ stage_three do
 
   prefs[:heroku_app_name_staging] = "#{prefs[:heroku_app_name]}-staging"
 
-  say_wizard 'recipe adding newrelic'
-  run "heroku addons:create newrelic:wayne -a #{prefs[:heroku_app_name]}"
+  if recipes.include? 'newrelic'
+    say_wizard 'recipe adding newrelic'
+    run "heroku addons:create newrelic:wayne -a #{prefs[:heroku_app_name]}"
+  end
 
-  say_wizard 'recipe adding rollbar'
-  run "heroku addons:create rollbar:free -a #{prefs[:heroku_app_name]}"
+  if recipes.include? 'rollbar'
+    say_wizard 'recipe adding rollbar'
+    run "heroku addons:create rollbar:free -a #{prefs[:heroku_app_name]}"
+  end
 
   say_wizard 'recipe adding logentries'
   run "heroku addons:create logentries:le_tryit -a #{prefs[:heroku_app_name]}"
@@ -46,7 +50,7 @@ __END__
 
 name: heroku
 description: "Add Heroku to your application."
-author: polomarte
+author: Outra Coisa
 
 requires: []
 run_after: []
