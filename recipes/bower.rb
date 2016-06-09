@@ -14,15 +14,6 @@ stage_three do
   # This dir will keep all libs sources and shouldn't be tracked by Git.
   Dir.mkdir 'bower_components'
 
-  # Add Bower's packages into asset pipeline.
-  insert_into_file 'app/assets/javascripts/application.js', before: '//= require_tree .' do
-    "//= require_tree ../bower\n"
-  end
-
-  insert_into_file 'app/assets/stylesheets/application.css.scss', before: '*= require_tree .' do
-    "*= require_tree ../bower\n "
-  end
-
   # Commit initial Bower's settings
   git add: '-A' if prefer :git, true
   git commit: '-qm "Add Bower settings"' if prefer :git, true
