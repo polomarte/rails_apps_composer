@@ -1,5 +1,4 @@
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/polomarte/rails_apps_composer/blob/master/recipes/environment.rb
+add_gem 'rollbar'
 
 def repo
   'https://raw.github.com/polomarte/polomarte_composer/master'
