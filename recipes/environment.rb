@@ -65,8 +65,8 @@ def setup_application_yml
     gsub_file 'config/application.yml', "{{new_relic_app_name}}",   @app_name
     gsub_file 'config/application.yml', "{{rollbar_token}}",        prefs[:rollbar_token]
     gsub_file 'config/application.yml', "{{rollbar_token_client}}", prefs[:rollbar_token_client]
-    gsub_file 'config/application.yml', "{{mandrill_username}}",    prefs[:mandrill_username]
-    gsub_file 'config/application.yml', "{{mandrill_apikey}}",      prefs[:mandrill_apikey]
+    gsub_file 'config/application.yml', "{{sendgrid_username}}",    prefs[:sendgrid_username]
+    gsub_file 'config/application.yml', "{{sendgrid_password}}",    prefs[:sendgrid_password]
   end
 
   git add: '-A' if prefer :git, true
@@ -91,7 +91,7 @@ __END__
 
 name: environment
 description: "Change Environment files"
-author: polomarte
+author: Outra Coisa
 
 requires: []
 run_after: [init]
