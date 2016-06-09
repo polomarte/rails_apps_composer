@@ -1,17 +1,15 @@
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/polomarte/rails_apps_composer/blob/master/recipes/livereload.rb
+#
+# Middleware insertion is already done in environment.rb recipe
 
-add_gem "rack-livereload", group: :development
-add_gem "guard-livereload", group: :development, require: false
+add_gem 'listen', '~> 3.0.5', group: :development
+add_gem 'rack-livereload', '~> 0.3.16', group: :development
+add_gem 'guard-livereload', '~> 2.3.0', group: :development, require: false
+add_gem 'rb-fsevent', '~> 0.9.7', group: :development, require: false
 
 stage_three do
   say_wizard "recipe config Rack-Livereload"
-
-  # Add rack-livereload configuration.
-  insert_into_file 'config/environments/development.rb', after: 'Rails.application.configure do' do
-  "\n
-  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)\n"
-  end
 
   # Commit initial Livereload's settings
   git add: '-A' if prefer :git, true
@@ -22,8 +20,8 @@ __END__
 
 name: livereload
 description: "Add Livereload packages"
-author: polomarte
+author: Outra Coisa
 
-requires: [tests]
-run_after: [tests]
+requires: []
+run_after: []
 category: development
