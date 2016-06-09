@@ -24,11 +24,8 @@ stage_three do
   say_wizard 'recipe adding memcachier'
   run "heroku addons:create memcachier:dev -a #{prefs[:heroku_app_name]}"
 
-  say_wizard 'recipe adding mandrill'
-  run "heroku addons:create mandrill:basic -a #{prefs[:heroku_app_name]}"
-
-  say_wizard 'recipe adding mailtrap'
-  run "heroku addons:create mailtrap:free -a #{prefs[:heroku_app_name_staging]}"
+  say_wizard 'recipe adding sendgrid'
+  run "heroku addons:create sendgrid:starter -a #{prefs[:heroku_app_name]}"
 
   heroku_api = PlatformAPI.connect_oauth(ENV['OUTRACOISA_HEROKU_API_KEY'])
 
@@ -38,8 +35,8 @@ stage_three do
   prefs[:new_relic_key]        = vars['NEW_RELIC_LICENSE_KEY']
   prefs[:rollbar_token]        = vars['ROLLBAR_ACCESS_TOKEN']
   prefs[:rollbar_token_client] = "GO TO THE ROLLBAR DASHBOARD AND GET ONE"
-  prefs[:mandrill_username]    = vars['MANDRILL_USERNAME']
-  prefs[:mandrill_apikey]      = vars['MANDRILL_APIKEY']
+  prefs[:sendgrid_password]    = vars['SENDGRID_PASSWORD']
+  prefs[:sendgrid_username]    = vars['SENDGRID_USERNAME']
 
   # Allow domains
   heroku_api.domain.create(prefs[:heroku_app_name], {hostname: prefs[:host_domain]})
