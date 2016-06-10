@@ -6,6 +6,8 @@ add_gem 'fog', '~>1.36.0'
 add_gem 'carrierwave', '~>0.10.0'
 add_gem 'mini_magick'
 add_gem 'aws-sdk'
+add_gem 'jquery.fileupload-rails', '~>1.11.0'
+add_gem 's3_file_field', '~>1.3.0'
 
 stage_two do
   # We have tried to put this into a "before_config" but this callback didn't work.
