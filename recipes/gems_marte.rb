@@ -7,6 +7,7 @@ add_gem'pry-byebug'
 add_gem 'pry-rescue', group: [:development, :test]
 add_gem 'rails_12factor', group: [:production, :staging]
 add_gem 'heroku-deflater', group: [:production, :staging]
+add_gem 'activeadmin-wysihtml5', github: 'theo-bittencourt/activeadmin-wysihtml5'
 
 __END__
 
