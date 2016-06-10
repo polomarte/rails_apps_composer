@@ -4,7 +4,7 @@
 prefs[:admin] = config['admin'] unless (config['admin'] == 'none')
 
 if prefer :admin, 'activeadmin'
-  add_gem 'activeadmin', github: 'gregbell/active_admin', ref: 'a5a53c3f'
+  add_gem 'activeadmin', github: 'gregbell/active_admin', tag: 'v1.0.0.pre1'
 elsif prefer :admin, 'rails_admin'
   add_gem 'rails_admin'
 end
