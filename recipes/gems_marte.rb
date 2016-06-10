@@ -9,6 +9,7 @@ add_gem 'heroku-deflater', group: [:production, :staging]
 add_gem 'activeadmin-wysihtml5', github: 'theo-bittencourt/activeadmin-wysihtml5'
 add_gem 'pg_search', '~> 1.0.5'
 add_gem 'figaro', '>= 1.0.0.rc1'
+add_gem 'devise', '~>3.5.2'
 
 __END__
 
