@@ -16,7 +16,7 @@ stage_three do
 
   # Commit initial Bower's settings
   git add: '-A' if prefer :git, true
-  git commit: '-qm "Add Bower settings"' if prefer :git, true
+  git commit: '-qm "rails_apps_composer: Add Bower settings"' if prefer :git, true
 
   begin
     `bower-installer`
