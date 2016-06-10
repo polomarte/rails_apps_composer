@@ -1,3 +1,5 @@
+add_gem 'martian_components', github: 'polomarte/martian_components', branch: 'master'
+
 stage_two do
   say_wizard "setup Martian Components"
 
