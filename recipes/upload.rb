@@ -19,11 +19,10 @@ stage_two do
 
   raise 'AWS access variables are not defined' if aws_access_info.any?(&:nil?)
 
-  say_wizard "recipe installing Carrierwave"
-
-  # Copy default Carrierwave settings
+  say_wizard "recipe installing Carrierwave and S3FileField"
   repo = 'https://raw.github.com/polomarte/polomarte_composer/master'
-  copy_from "#{repo}/carrierwave/settings.rb", 'config/initializers/carrierwave.rb'
+  copy_from "#{repo}/initializers/carrierwave.rb", 'config/initializers/carrierwave.rb'
+  copy_from "#{repo}/initializers/s3_file_field.rb", 'config/initializers/s3_file_field.rb'
 
   # Amazon Web Services Configuration
   Aws.config.update({
