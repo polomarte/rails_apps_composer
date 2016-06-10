@@ -1,4 +1,4 @@
-stage_three do
+stage_two do
   say_wizard "setup Martian Components"
 
   repo = 'https://raw.github.com/polomarte/polomarte_composer/master'
