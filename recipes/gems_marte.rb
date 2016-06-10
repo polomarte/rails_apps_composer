@@ -1,3 +1,5 @@
+add_gem 'cocoon', '~> 1.2.6'
+add_gem 'bourbon', '~>3.2.3' # Active Admin compat
 add_gem 'draper', '~> 1.3'
 add_gem 'jazz_hands',
   group:  [:development, :test],
