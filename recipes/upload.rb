@@ -103,7 +103,7 @@ stage_two do
   })
 
   git add: '-A' if prefer :git, true
-  git commit: '-qm "Add Upload settings"' if prefer :git, true
+  git commit: '-qm "rails_apps_composer: Add Upload settings"' if prefer :git, true
 end
 
 __END__
